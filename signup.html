@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at bottom, #00111a 0%, #000000 100%);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e0f7fa;
+    }
+
+    .form-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
+      text-align: center;
+      backdrop-filter: blur(10px);
+      width: 90%;
+      max-width: 400px;
+      animation: floatBox 6s ease-in-out infinite;
+    }
+
+    /* Floating box animation */
+    @keyframes floatBox {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Wave text animation */
+    .form-box h2 span {
+      display: inline-block;
+      animation: wave 2s infinite ease-in-out;
+      animation-delay: calc(var(--i) * 0.1s);
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    input {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    button {
+      background: linear-gradient(135deg, #00c3ff, #8800ff);
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(136, 0, 255, 0.8);
+    }
+
+    /* Bubble effect */
+    .bubble {
+      position: absolute;
+      bottom: -50px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      animation: rise 10s linear infinite;
+    }
+
+    .bubble:nth-child(1) { left: 5%; width: 20px; height: 20px; animation-delay: 0s; }
+    .bubble:nth-child(2) { left: 15%; width: 25px; height: 25px; animation-delay: 2s; }
+    .bubble:nth-child(3) { left: 30%; width: 15px; height: 15px; animation-delay: 4s; }
+    .bubble:nth-child(4) { left: 45%; width: 30px; height: 30px; animation-delay: 1s; }
+    .bubble:nth-child(5) { left: 60%; width: 10px; height: 10px; animation-delay: 3s; }
+    .bubble:nth-child(6) { left: 75%; width: 22px; height: 22px; animation-delay: 1.5s; }
+    .bubble:nth-child(7) { left: 90%; width: 18px; height: 18px; animation-delay: 2.5s; }
+
+    @keyframes rise {
+      0% {
+        bottom: -50px;
+        opacity: 0;
+        transform: translateX(0);
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        bottom: 100%;
+        opacity: 0;
+        transform: translateX(20px);
+      }
+    }
+
+    /* Popup message */
+    .popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 255, 255, 0.1);
+      color: #e0f7fa;
+      padding: 15px 25px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+      font-weight: bold;
+      font-size: 16px;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(10px);
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-box">
+   <h2>
+  <span style="--i:0">C</span><span style="--i:1">r</span><span style="--i:2">e</span><span style="--i:3">a</span><span style="--i:4">t</span><span style="--i:5">e</span>
+  <span> </span>
+  <span style="--i:6">Y</span><span style="--i:7">o</span><span style="--i:8">u</span><span style="--i:9">r</span>
+  <span> </span>
+  <span style="--i:10">A</span><span style="--i:11">c</span><span style="--i:12">c</span><span style="--i:13">o</span><span style="--i:14">u</span><span style="--i:15">n</span><span style="--i:16">t</span>
+</h2>
+
+    <input type="text" id="username" placeholder="Choose a username" required />
+    <input type="password" id="password" placeholder="Create a password" required />
+    <button onclick="signUp()">Sign Up</button>
+  </div>
+
+  <!-- Bubbles -->
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+
+  <!-- Custom popup -->
+  <div id="popup" class="popup">Both fields are required!</div>
+
+  <script>
+    function showPopup(message) {
+      const popup = document.getElementById("popup");
+      popup.textContent = message;
+      popup.classList.add("show");
+      setTimeout(() => {
+        popup.classList.remove("show");
+      }, 3000);
+    }
+
+    function signUp() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!username || !password) {
+        showPopup("Both fields are required!");
+        return;
+      }
+
+      localStorage.setItem("username", username);
+      localStorage.setItem("password", password);
+      window.location.href = "confirm.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule a Message</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at bottom, #00111a 0%, #000000 100%);
+      color: #e0f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 20px;
+      padding: 20px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+      position: relative;
+      z-index: 10;
+      animation: floatBox 3s ease-in-out infinite;
+    }
+
+    @keyframes floatBox {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: bubbleMove 20s infinite;
+    }
+
+    .bubble:nth-child(1) {
+      width: 40px; height: 40px; left: 20%; animation-duration: 18s;
+    }
+    .bubble:nth-child(2) {
+      width: 30px; height: 30px; left: 60%; animation-duration: 25s;
+    }
+    .bubble:nth-child(3) {
+      width: 20px; height: 20px; left: 80%; animation-duration: 15s;
+    }
+
+    @keyframes bubbleMove {
+      0% { bottom: -60px; transform: translateX(0); }
+      50% { transform: translateX(10px); }
+      100% { bottom: 110%; transform: translateX(-10px); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+
+    input, textarea {
+      background: #fff;
+      color: #333;
+    }
+
+    button {
+      background: linear-gradient(to right, #00c3ff, #8800ff);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+    }
+
+    .popup, .error {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.95);
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+      font-size: 1.2em;
+      z-index: 1000;
+      animation: glitter 2s ease-in-out;
+    }
+
+    @keyframes glitter {
+      0%, 100% { box-shadow: 0 0 5px #fff; }
+      50% { box-shadow: 0 0 20px #0ff; }
+    }
+
+    .countdown {
+      font-size: 1.5em;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .popup, .error {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.95);
+  color: #000;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 1.2em;
+  z-index: 1000;
+  box-shadow: 0 0 10px #fff, 0 0 20px #0ff;
+  animation: glitter 2s ease-in-out;
+  overflow: hidden;
+}
+
+.popup::before, .error::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.3) 2%, transparent 2.5%);
+  background-size: 20px 20px;
+  animation: sparkle 1.5s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes glitter {
+  0%, 100% { box-shadow: 0 0 5px #fff; }
+  50% { box-shadow: 0 0 20px #0ff; }
+}
+
+@keyframes sparkle {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(20px, 20px); }
+}
+
+  </style>
+</head>
+<body>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="container">
+    <h2>📨 Schedule a Message</h2>
+    <form id="messageForm">
+      <input type="tel" id="sender" placeholder="Sender Phone Number" required>
+      <input type="tel" id="receiver" placeholder="Receiver Phone Number" required>
+      <textarea id="message" rows="5" placeholder="Type your message here..." required></textarea>
+      <input type="datetime-local" id="scheduleTime" required>
+      <button type="submit">Schedule Message</button>
+    </form>
+    <div class="countdown" id="countdown"></div>
+  </div>
+
+  <div id="popup" class="popup" style="display: none;">🎉 Message Sent!</div>
+  <div id="errorPopup" class="popup error" style="display: none;">⚠️ Error: Please fill all fields correctly!</div>
+
+<script>
+  const form = document.getElementById('messageForm');
+  const popup = document.getElementById('popup');
+  const errorPopup = document.getElementById('errorPopup');
+  const countdownEl = document.getElementById('countdown');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const sender = document.getElementById('sender').value.trim();
+    const receiver = document.getElementById('receiver').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const timeInput = document.getElementById('scheduleTime').value;
+
+    if (!sender || !receiver || !message || !timeInput) {
+      errorPopup.style.display = 'block';
+      errorPopup.innerText = '⚠️ Error: Please fill all fields correctly!';
+      setTimeout(() => errorPopup.style.display = 'none', 3000);
+      return;
+    }
+
+    const scheduleTime = new Date(timeInput);
+    if (isNaN(scheduleTime.getTime())) {
+      errorPopup.style.display = 'block';
+      errorPopup.innerText = '⚠️ Error: Invalid time format!';
+      setTimeout(() => errorPopup.style.display = 'none', 3000);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/schedule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sender,
+          receiver,
+          message,
+          scheduleTime: scheduleTime.toISOString()
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to schedule message');
+      }
+
+      
+     // ✅ Start countdown
+const countdownInterval = setInterval(() => {
+  const now = Date.now();
+  const distance = scheduleTime.getTime() - now;
+
+  if (distance <= 0) {
+    clearInterval(countdownInterval);
+    countdownEl.innerText = '✅ Message sent!';
+
+    // 📨 Now call the backend to actually send the SMS
+    fetch('http://localhost:3000/send-now', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ receiver, message })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        popup.style.display = 'block';
+        setTimeout(() => popup.style.display = 'none', 2000);
+      } else {
+        throw new Error(data.error || 'Failed to send message');
+      }
+    })
+    .catch(err => {
+      errorPopup.innerText = `⚠️ Error: ${err.message}`;
+      errorPopup.style.display = 'block';
+      setTimeout(() => errorPopup.style.display = 'none', 3000);
+    });
+
+  } else {
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    countdownEl.innerText = `Sending in ${minutes}m ${seconds}s`;
+  }
+}, 1000);
+
+
+
+    } catch (err) {
+      console.error(err);
+      errorPopup.innerText = `⚠️ Error: ${err.message}`;
+      errorPopup.style.display = 'block';
+      setTimeout(() => errorPopup.style.display = 'none', 3000);
+    }
+  });
+</script>
+
+
+
+
+</body>
+</html>
+
+
