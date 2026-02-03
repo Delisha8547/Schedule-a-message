@@ -9,34 +9,31 @@ By integrating the Twilio API, the system handles real-time SMS dispatching and 
 1.Key Features
 - Message Scheduling – Users can schedule SMS messages for a specific future date and time.
 - Message Composition – Intuitive interface for writing and managing message content.
-Automated SMS Delivery – Uses Twilio API to send messages automatically at the scheduled time.
-Real-Time Scheduling Engine – Ensures messages are triggered and delivered accurately without manual intervention.
-Message Tracking – Tracks scheduled and delivered messages to improve transparency and usability.
-User-Friendly Interface – Clean and simple UI focused on ease of use and efficiency.
+- Automated SMS Delivery – Uses Twilio API to send messages automatically at the scheduled time.
+- Real-Time Scheduling Engine – Ensures messages are triggered and delivered accurately without manual intervention.
+- Message Tracking – Tracks scheduled and delivered messages to improve transparency and usability.
+- User-Friendly Interface – Clean and simple UI focused on ease of use and efficiency.
 
 2.Technologies Used
-Backend: Python / Node.js (update based on what you used)
-Frontend: HTML, CSS, JavaScript (or React, if applicable)
-API Integration: Twilio SMS API
-Scheduling: Cron jobs / Background scheduler (e.g., Celery, APScheduler, or Node scheduler)
-Database: MySQL / MongoDB / SQLite (if used)
+- Frontend: HTML, CSS, JavaScript 
+- API Integration: Twilio SMS API
 
 3.How It Works
-The user composes a message and selects the desired delivery date and time.
-The system stores the message details securely in the database.
-A scheduling service continuously monitors upcoming messages.
-At the scheduled time, the application automatically triggers the Twilio API.
-The SMS is delivered to the recipient, and the delivery status is updated in real time.
+- The user composes a message and selects the desired delivery date and time.
+- The system stores the message details securely in the database.
+- A scheduling service continuously monitors upcoming messages.
+- At the scheduled time, the application automatically triggers the Twilio API.
+- The SMS is delivered to the recipient, and the delivery status is updated in real time.
 
 4.Use Cases
-Appointment reminders
-Event notifications
-Automated alerts
-Scheduled personal or business communications
+- Appointment reminders
+- Event notifications
+- Automated alerts
+- Scheduled personal or business communications
 
 5.Future Enhancements
-Multi-recipient scheduling
-Email and WhatsApp message support
-Message delivery analytics dashboard
-Time zone–based scheduling
-User authentication and role management
+- Multi-recipient scheduling
+- Email and WhatsApp message support
+- Message delivery analytics dashboard
+- Time zone–based scheduling
+- User authentication and role management
