@@ -7,8 +7,8 @@ The Scheduled Messaging Application is a robust system that allows users to comp
 By integrating the Twilio API, the system handles real-time SMS dispatching and provides dependable message delivery, making it suitable for reminders, alerts, and time-sensitive notifications.
 
 1.Key Features
-Message Scheduling – Users can schedule SMS messages for a specific future date and time.
-Message Composition – Intuitive interface for writing and managing message content.
+- Message Scheduling – Users can schedule SMS messages for a specific future date and time.
+- Message Composition – Intuitive interface for writing and managing message content.
 Automated SMS Delivery – Uses Twilio API to send messages automatically at the scheduled time.
 Real-Time Scheduling Engine – Ensures messages are triggered and delivered accurately without manual intervention.
 Message Tracking – Tracks scheduled and delivered messages to improve transparency and usability.
